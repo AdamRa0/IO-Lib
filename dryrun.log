@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/adam/Projects/IO-Lib'
+make: Leaving directory '/home/adam/Projects/IO-Lib'
+Makefile:2: *** missing separator.  Stop.
+
