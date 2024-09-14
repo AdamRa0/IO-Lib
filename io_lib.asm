@@ -1,6 +1,7 @@
 section .data
     test_str: db 'Hello brethren', 0 ; test varible to ensure function works
     new_line: db 0xA ; code for newline
+    new_char: db 'c'
 global _start
 
 section .text
@@ -16,8 +17,6 @@ string_length:
     xor rbx, rbx
 
 .loop:
-    mov rax, 0
-
     cmp byte [rsi + rbx], 0
     je .done
 
@@ -39,16 +38,31 @@ print_newline:
     ret
 
 print_string:
+    push rdi
+    call string_length
+    pop rdi
+
     mov rsi, rdi ; copy test_str to rsi
-    mov rax, 1 ; Linux sys_write syscall val
     mov rdi, 1 ; FD
-    mov rdx, 14 ; Length of test_str
+    mov rdx, rax ; Length of string
+    mov rax, 1
+
     syscall
     ret ; return to _start
 
+print_char:
+    mov rsi, rdi
+    mov rax, 1
+    mov rdi, 1
+    mov rdx, 1
+    syscall
+    ret
+
 _start:
-    mov rdi, test_str
-    ;call string_length
-    call print_string
+    mov rdi, new_char
+    ;mov rdi, test_str
+    ; call string_length
+    ;call print_string
+    call print_char
     call print_newline
     call exit
