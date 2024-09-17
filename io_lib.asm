@@ -102,7 +102,7 @@ print_uint:
     jmp .print_uint_done
 
 .print_uint_done:
-    mov rsi, buffer ; Only takes the last most item in buffer
+    mov rsi, buffer
     jmp .print_number
 
 .print_number:
