@@ -2,6 +2,9 @@ section .data
     test_str: db 'Hello brethren', 0 ; test varible to ensure function works
     new_line: db 0xA ; code for newline
     new_char: db 'c'
+    buffer: times 20 db 0
+    test_uint: dq 1234 ; testing print_uint function
+
 global _start
 
 section .text
@@ -58,11 +61,65 @@ print_char:
     syscall
     ret
 
+
+print_uint:
+    ; set r8 and r9 to zero
+    xor r8, r8
+    xor r9, r9
+    ; set divisor
+    mov r8, 10
+
+    ; check if value is zero
+    cmp rdi, 0
+    jz .zero_case
+
+    ; move uint value to rax
+    mov rax, rdi
+    lea rsi, [buffer + 19]
+
+.conversion_loop:
+    xor rdx, rdx
+    div r8
+    ; convert int to char
+    add rdx, 0x30
+
+    ; move char to rsi
+    mov [rsi], dl
+
+    ; move rsi pointer one byte back and increase string_length counter
+    dec rsi
+    inc r9
+
+    test rax, rax
+    jnz .conversion_loop
+
+    inc rsi
+    jmp .print_uint_done
+
+.zero_case:
+    mov byte [rsi], '0'
+    mov r9,  1
+    jmp .print_uint_done
+
+.print_uint_done:
+    mov rsi, buffer ; Only takes the last most item in buffer
+    jmp .print_number
+
+.print_number:
+    mov rdx, buffer + 20
+    sub rdx, rsi
+    mov rax, 1
+    mov rdi, 1
+    syscall
+    ret
+
 _start:
-    mov rdi, new_char
-    ;mov rdi, test_str
+    ; mov rdi, new_char
+    ; mov rdi, test_str
     ; call string_length
-    ;call print_string
-    call print_char
+    ; call print_string
+    ; call print_char
+    mov rdi, [test_uint]
+    call print_uint
     call print_newline
     call exit
