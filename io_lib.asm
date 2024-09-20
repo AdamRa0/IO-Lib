@@ -3,7 +3,7 @@ section .data
     new_line: db 0xA ; code for newline
     new_char: db 'c'
     buffer: times 20 db 0
-    test_uint: dq 1234 ; testing print_uint function
+    test_uint: dq -1234 ; testing print_uint function
 
 global _start
 
@@ -65,7 +65,6 @@ print_char:
 print_uint:
     ; set r8 and r9 to zero
     xor r8, r8
-    xor r9, r9
     ; set divisor
     mov r8, 10
 
@@ -86,9 +85,8 @@ print_uint:
     ; move char to rsi
     mov [rsi], dl
 
-    ; move rsi pointer one byte back and increase string_length counter
+    ; move rsi pointer one byte back
     dec rsi
-    inc r9
 
     test rax, rax
     jnz .conversion_loop
@@ -97,8 +95,9 @@ print_uint:
     jmp .print_uint_done
 
 .zero_case:
-    mov byte [rsi], '0'
+    xor r9, r9
     mov r9,  1
+    mov byte [rsi], '0'
     jmp .print_uint_done
 
 .print_uint_done:
@@ -113,6 +112,88 @@ print_uint:
     syscall
     ret
 
+
+print_int:
+    ; set r8
+    xor r8, r8
+
+    ; set divisor
+    mov r8, 10
+
+    
+    ; check if value is zero
+    cmp rdi, 0
+    jz .int_zero_case
+
+    lea rsi, [buffer + 19]
+
+    ; check if value is negative
+    test rdi, rdi
+    js .negative_int_conversion_loop
+
+    ; move uint value to rax
+    mov rax, rdi
+
+.int_conversion_loop:
+    xor rdx, rdx
+    idiv r8
+    ; convert int to char
+    add rdx, 0x30
+
+    ; move char to rsi
+    mov [rsi], dl
+
+    ; move rsi pointer one byte back
+    dec rsi
+
+    test rax, rax
+    jnz .int_conversion_loop
+
+    inc rsi
+    jmp .print_int_done
+
+.negative_int_conversion_loop:
+    neg rdi; convert to positive
+
+    mov rax, rdi
+    xor rdx, rdx
+
+.neg_loop:
+    xor rdx, rdx
+    idiv r8
+    ; convert int to char
+    add rdx, 0x30
+
+    ; move char to rsi
+    mov [rsi], dl
+
+    ; move rsi pointer one byte back
+    dec rsi
+
+    test rax, rax
+    jnz .neg_loop
+
+    mov byte [rsi], '-'
+    jmp .print_int_done
+
+.int_zero_case:
+    xor r9, r9
+    mov r9,  1
+    mov byte [rsi], '0'
+    jmp .print_int_done
+
+.print_int_done:
+    mov rsi, buffer
+    jmp .print_int_number
+
+.print_int_number:
+    mov rdx, buffer + 20
+    sub rdx, rsi
+    mov rax, 1
+    mov rdi, 1
+    syscall
+    ret
+    
 _start:
     ; mov rdi, new_char
     ; mov rdi, test_str
@@ -120,6 +201,7 @@ _start:
     ; call print_string
     ; call print_char
     mov rdi, [test_uint]
-    call print_uint
+    ;call print_uint
+    call print_int
     call print_newline
     call exit
