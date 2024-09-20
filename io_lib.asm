@@ -5,6 +5,9 @@ section .data
     buffer: times 20 db 0
     test_uint: dq -1234 ; testing print_uint function
 
+section .bss
+    char_buffer: resb 1
+
 global _start
 
 section .text
@@ -193,6 +196,15 @@ print_int:
     mov rdi, 1
     syscall
     ret
+
+read_char:
+    mov rax, 0
+    mov rsi, rdi
+    mov rdi, 0
+    mov rdx, 1
+    syscall
+    mov rax, rsi
+    ret
     
 _start:
     ; mov rdi, new_char
@@ -200,8 +212,12 @@ _start:
     ; call string_length
     ; call print_string
     ; call print_char
-    mov rdi, [test_uint]
-    ;call print_uint
-    call print_int
+    ; mov rdi, [test_uint]
+    ; call print_uint
+    ; call print_int
+    lea rdi, [char_buffer]
+    call read_char
+    lea rdi, [char_buffer]
+    call print_char
     call print_newline
     call exit
