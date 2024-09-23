@@ -4,17 +4,25 @@ section .data
     new_char: db 'c'
     buffer: times 20 db 0
     test_uint: dq -1234 ; testing print_uint function
+    input_len: equ 256
+    sys_write: equ 1
+    sys_read: equ 0
+    sys_exit: equ 60
+    sys_stdin: equ 0
+    sys_stdout: equ 1
+    success: equ 0
 
 section .bss
     char_buffer: resb 1
+    input_buffer: resb input_len
 
 global _start
 
 section .text
 
 exit:
-    mov rdi, rax
-    mov rax, 60
+    mov rdi, success
+    mov rax, sys_exit
     syscall
 
 ; Function finding string length
@@ -37,9 +45,9 @@ string_length:
 
 print_newline:
     mov rsi, new_line
-    mov rax, 1
-    mov rdi, 1
-    mov rdx, 1
+    mov rax, sys_write
+    mov rdi, sys_stdout
+    mov rdx, sys_stdout
     syscall
     ret
 
@@ -49,18 +57,18 @@ print_string:
     pop rdi
 
     mov rsi, rdi ; copy test_str to rsi
-    mov rdi, 1 ; FD
+    mov rdi, sys_stdout ; FD
     mov rdx, rax ; Length of string
-    mov rax, 1
+    mov rax, sys_write
 
     syscall
     ret ; return to _start
 
 print_char:
     mov rsi, rdi
-    mov rax, 1
-    mov rdi, 1
-    mov rdx, 1
+    mov rax, sys_write
+    mov rdi, sys_stdout
+    mov rdx, sys_stdout
     syscall
     ret
 
@@ -110,8 +118,8 @@ print_uint:
 .print_number:
     mov rdx, buffer + 20
     sub rdx, rsi
-    mov rax, 1
-    mov rdi, 1
+    mov rax, sys_write
+    mov rdi, sys_stdout
     syscall
     ret
 
@@ -192,18 +200,28 @@ print_int:
 .print_int_number:
     mov rdx, buffer + 20
     sub rdx, rsi
-    mov rax, 1
-    mov rdi, 1
+    mov rax, sys_write
+    mov rdi, sys_stdout
     syscall
     ret
 
 read_char:
-    mov rax, 0
+    mov rax, sys_read
     mov rsi, rdi
-    mov rdi, 0
+    mov rdi, sys_stdin
     mov rdx, 1
     syscall
     mov rax, rsi
+    ret
+
+read_string:
+    mov rax, sys_read
+    mov rdx, input_len
+    mov rdi, sys_stdin
+    mov rsi, input_buffer
+
+    syscall
+
     ret
     
 _start:
@@ -215,9 +233,12 @@ _start:
     ; mov rdi, [test_uint]
     ; call print_uint
     ; call print_int
-    lea rdi, [char_buffer]
-    call read_char
-    lea rdi, [char_buffer]
-    call print_char
-    call print_newline
+    ; lea rdi, [char_buffer]
+    ; call read_char
+    ; lea rdi, [char_buffer]
+    ; call print_char
+    ; call print_newline
+    call read_string
+    mov rdi, input_buffer
+    call print_string
     call exit
