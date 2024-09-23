@@ -1,3 +1,16 @@
-build:
-	nasm -f elf64 -o io_lib.o io_lib.asm
-	ld -o io_lib io_lib.o
+ASM = nasm
+ASMFLAGS = -f elf64
+LD = ld
+EXECUTABLE = io_lib
+OBJ_FILES = print_char.o print_int.o print_newline.o print_string.o print_uint.o read_char.o read_string.o string_length.o io_lib.o exit.o
+
+all: $(EXECUTABLE)
+
+%.o: %.asm
+	$(ASM) $(ASMFLAGS) -o $@ $<
+
+$(EXECUTABLE): $(OBJ_FILES)
+	$(LD) -o $(EXECUTABLE) $(OBJ_FILES)
+
+clean: 
+	rm -f $(OBJ_FILES) $(EXECUTABLE)
