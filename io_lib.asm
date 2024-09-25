@@ -5,6 +5,7 @@ extern input_buffer ; For testing, remove later
 extern print_string
 extern exit
 extern parse_uint
+extern parse_int
 
 global _start
 
@@ -27,5 +28,6 @@ _start:
     ; call read_string
     ; mov rdi, input_buffer
     ; call print_string
-    call parse_uint
+    ; call parse_uint
+    call parse_int
     call exit

@@ -7,16 +7,15 @@ parse_uint:
 
 .atoi:
     xor rax, rax
-    xor r8, r8
 
 .loop:
     movzx rcx, byte [rdx]
 
     cmp rcx, 0x30
-    je .done
+    jl .done
 
     cmp rcx, 0x39
-    je .done
+    jg .done
 
     cmp rcx, 0xA
     je .done
