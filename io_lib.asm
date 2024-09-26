@@ -10,10 +10,6 @@ extern cmp_string
 
 global _start
 
-section .data
-    str1: db 'Hello', 0
-    str2: db 'Hella', 0
-
 section .text
     
 _start:
