@@ -1,12 +1,9 @@
 global parse_int
 
-section .data
-    test: db '-1235'
-
 section .text
 
 parse_int:
-    mov rdx, test
+    mov rdx, rdi
 
 .atoi:
     xor rax, rax
@@ -17,9 +14,12 @@ parse_int:
     cmp rcx, '-'
     je .negative_number
 
+    jmp .parse_number
+
 .negative_number:
     mov r8, 1
     inc rdx
+    jmp .parse_number
 
 .parse_number:
     movzx rcx, byte [rdx]
@@ -49,3 +49,5 @@ parse_int:
 
 .return:
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits

@@ -13,3 +13,5 @@ print_char:
     mov rdx, sys_stdout
     syscall
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits

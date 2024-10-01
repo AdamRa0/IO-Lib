@@ -52,7 +52,6 @@ print_int:
     neg rdi; convert to positive
 
     mov rax, rdi
-    xor rdx, rdx
 
 .neg_loop:
     xor rdx, rdx
@@ -75,7 +74,7 @@ print_int:
 .int_zero_case:
     xor r9, r9
     mov r9,  1
-    mov byte [rsi], '0'
+    mov byte [buffer + 19], '0'
     jmp .print_int_done
 
 .print_int_done:
@@ -89,3 +88,5 @@ print_int:
     mov rdi, sys_stdout
     syscall
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits

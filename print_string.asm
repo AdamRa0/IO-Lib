@@ -19,3 +19,5 @@ print_string:
 
     syscall
     ret ; return to _start
+
+section .note.GNU-stack noalloc noexec nowrite progbits

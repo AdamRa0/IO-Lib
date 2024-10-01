@@ -23,3 +23,5 @@ cmp_string:
 .str_equal:
     mov rax, 1
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits

@@ -5,17 +5,19 @@ section .text
 ; Function finding string length
 string_length:
     mov rsi, rdi
-    xor rbx, rbx
+    xor rcx, rcx
 
 .loop:
-    cmp byte [rsi + rbx], 0
+    cmp byte [rsi + rcx], 0
     je .done
 
-    inc rbx
+    inc rcx
 
     jmp .loop
 
 ; Function printing string
 .done:
-    mov rax, rbx
+    mov rax, rcx
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits

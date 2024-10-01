@@ -19,4 +19,7 @@ read_string:
 
     syscall
 
+    mov rax, input_buffer
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits

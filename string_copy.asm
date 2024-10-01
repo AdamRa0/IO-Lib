@@ -26,3 +26,5 @@ string_copy:
 .empty_string_or_copy_incomplete:
     mov rax, 0
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits

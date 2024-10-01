@@ -59,3 +59,5 @@ print_uint:
     mov rdi, sys_stdout
     syscall
     ret
+
+section .note.GNU-stack noalloc noexec nowrite progbits
