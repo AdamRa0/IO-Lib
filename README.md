@@ -2,14 +2,21 @@
 
 Learning X86 Assembly by writing I/O Functions.
 
-Once done planning on trying the functions out on some C code.
-
-io_lib.asm contains all the functions under one file
-
-
-[Linux System Calls for X86-64](https://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/)
-
 ## Technologies
+- GCC
 - NASM Assembler
 - Make
-- Linker
+
+## Running this project
+- CD into cloned project and run the following commands
+
+```bash
+make
+
+chmod u+x io_lib
+
+./io_lib
+```
+
+## Resources
+[Linux System Calls for X86-64](https://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/)
