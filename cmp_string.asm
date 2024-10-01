@@ -3,15 +3,6 @@ global cmp_string
 section .text
 
 cmp_string:
-    ; mov rcx, -1
-
-    ; repe cmpsb
-
-    ; je .str_equal
-
-    ; xor rax, rax
-    ; ret
-
     mov al, byte[rsi]
     mov bl, byte[rdi]
 
