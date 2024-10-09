@@ -23,6 +23,7 @@ print_int:
 
     lea rsi, [buffer + 19]
 
+    movsxd rdi, edi
     ; check if value is negative
     test rdi, rdi
     js .negative_int_conversion_loop

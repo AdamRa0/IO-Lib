@@ -38,9 +38,8 @@ void main()
     print_string("String printed from assembly function");
     print_newline();
 
-    // TODO: Fix as it prints out unsigned 32 bit int interpretation for negative numbers
-    // print_int(-555);
-    // print_newline();
+    print_int(-555);
+    print_newline();
 
     print_uint(54678);
     print_newline();
