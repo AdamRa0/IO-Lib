@@ -62,24 +62,23 @@ void main()
     unsigned long pos_int = parse_uint("78910");
     printf("Parsed integer: %lu\n", pos_int);
 
-    // TODO: fix parse issue with negative numbers
-    // unsigned long neg_int = parse_int("-78910");
-    // printf("Parsed integer: %lu\n", neg_int);
+    long neg_int = parse_int("-78910");
+    printf("Parsed integer: %ld\n", neg_int);
 
     // Prints strings are not equal
     // int isEqual = cmp_string("Hello", "Hella");
 
     // Prints strings are equal
-    int isEqual = cmp_string("Hello", "Hello");
+    // int isEqual = cmp_string("Hello", "Hello");
 
-    if (isEqual)
-    {
-        printf("Strings are equal\n");
-    }
-    else
-    {
-        printf("Strings are not equal\n");
-    }
+    // if (isEqual)
+    // {
+    //     printf("Strings are equal\n");
+    // }
+    // else
+    // {
+    //     printf("Strings are not equal\n");
+    // }
 
     // TODO: Fix segmentation fault
     // char *copied_str = string_copy(buffer, STRING_TO_COPY, BUFFER_SIZE);
