@@ -32,7 +32,7 @@ void main()
 {
 
     char STRING_TO_COPY[] = "str_cpy";
-    char BUFFER_SIZE = 7;
+    int BUFFER_SIZE = sizeof(STRING_TO_COPY);
     char buffer[BUFFER_SIZE];
 
     print_string("String printed from assembly function");
@@ -48,7 +48,6 @@ void main()
     print_newline();
 
     int str_len = string_length("Test string");
-    // Should print 11
     printf("String length: %d\n", str_len);
 
     char *read_chr = read_char();
@@ -68,20 +67,19 @@ void main()
     // Prints strings are not equal
     // int isEqual = cmp_string("Hello", "Hella");
 
-    // Prints strings are equal
-    // int isEqual = cmp_string("Hello", "Hello");
+    int isEqual = cmp_string("Hello", "Hello");
 
-    // if (isEqual)
-    // {
-    //     printf("Strings are equal\n");
-    // }
-    // else
-    // {
-    //     printf("Strings are not equal\n");
-    // }
+    if (isEqual)
+    {
+        printf("Strings are equal\n");
+    }
+    else
+    {
+        printf("Strings are not equal\n");
+    }
 
-    // TODO: Fix segmentation fault
-    // char *copied_str = string_copy(buffer, STRING_TO_COPY, BUFFER_SIZE);
+    // TODO: Fix overwrite in buffer
+    // char *copied_str = string_copy(STRING_TO_COPY, buffer, BUFFER_SIZE);
 
     // if (copied_str == 0)
     // {
@@ -89,7 +87,7 @@ void main()
     // }
     // else
     // {
-    //     printf("Copied string: %s", copied_str);
+    //     printf("Copied string: %s", buffer);
     // }
     
     exit(0);

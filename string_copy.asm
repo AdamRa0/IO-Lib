@@ -1,25 +1,29 @@
 global string_copy
 
-section .data
+section .text
 
 string_copy:
-    cmp rdx, 0 ; if empty string
+    cmp rdx, 0
     je .empty_string_or_copy_incomplete
 
 .loop:
-    mov al, byte[rdi]
+    mov al, byte [rdi]
     test al, al
-    je .empty_string_or_copy_incomplete
+    je .done
 
     mov [rsi], al
-    dec rdx
     inc rsi
     inc rdi
+    dec rdx
 
     test rdx, rdx
     jnz .loop
 
 .handle_buffer_size_exhausted:
+    mov byte [rsi], 0
+    jmp .done
+
+.done:
     mov rax, rsi
     ret
 

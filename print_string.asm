@@ -18,6 +18,6 @@ print_string:
     mov rax, sys_write
 
     syscall
-    ret ; return to _start
+    ret
 
 section .note.GNU-stack noalloc noexec nowrite progbits
